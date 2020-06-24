@@ -5,12 +5,12 @@
 #include "Layer.hpp"
 
 class TestLayer : public Layer {
-   public:
+  public:
     TestLayer();
-    
+
     bool handle_event(const sf::Event&) override;
     bool render(sf::RenderWindow&, const sf::Time&) const override;
 
-   private:
+  private:
     sf::CircleShape m_shape;
 };

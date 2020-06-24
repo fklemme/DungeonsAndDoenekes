@@ -5,7 +5,7 @@
 #include <SFML/Window/Event.hpp>
 
 class Layer {
-   public:
+  public:
     Layer() = default;
     virtual ~Layer() = default;
 
@@ -17,6 +17,6 @@ class Layer {
     virtual bool render(sf::RenderWindow&, const sf::Time&) const = 0;
     inline bool render_underlying_layers() const { return m_render_underlying_layers; }
 
-   protected:
+  protected:
     bool m_render_underlying_layers = true;
 };
