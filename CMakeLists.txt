@@ -16,7 +16,7 @@ else()
 endif()
 
 # Add sources
-file(GLOB src "src/*.h" "src/*.cpp")
+file(GLOB src "src/*.hpp" "src/*.cpp")
 add_executable(${PROJECT_NAME} ${src})
 
 # Add SFML
