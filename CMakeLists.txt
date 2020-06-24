@@ -25,3 +25,6 @@ if(WIN32)
 endif()
 add_subdirectory(ext/SFML)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
+
+# Copy game resources to build directory.
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
