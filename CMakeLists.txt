@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Program name
-project(sfmlgame)
+project(DungeonsAndDoenekes)
 
 # Define a 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
