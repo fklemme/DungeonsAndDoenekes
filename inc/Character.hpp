@@ -9,7 +9,7 @@ class Character {
     Character(const std::string& name, int attack, int health);
     virtual ~Character() = default;
 
-    // prevent slicing
+    // Prevent slicing
     Character(const Character&) = delete;
     Character& operator=(const Character&) = delete;
 
@@ -17,8 +17,8 @@ class Character {
     inline int health() const { return m_health; }
     inline int max_health() const { return m_max_health; }
 
-    int attack() const;
-    void deal_damage(int damage);
+    int total_attack() const;
+    void incur_damage(int damage);
 
   protected:
     std::string m_name;

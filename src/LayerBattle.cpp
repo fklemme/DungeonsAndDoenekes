@@ -3,7 +3,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <sstream>
 
-LayerBattle::LayerBattle(Game* game, Player* player, Enemy* enemy) : m_game(game), m_player(player), m_enemy(enemy) {}
+LayerBattle::LayerBattle(observer_ptr<Game> game, observer_ptr<const Player> player, observer_ptr<const Enemy> enemy) : m_game(game), m_player(player), m_enemy(enemy) {}
 
 bool LayerBattle::handle_event(const sf::Event&) { return false; }
 

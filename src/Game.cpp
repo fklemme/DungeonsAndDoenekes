@@ -3,19 +3,20 @@
 #include <stdexcept>
 #include "Enemy.hpp"
 #include "LayerBattle.hpp"
-#include "Player.hpp"
 
 Game::Game() : m_main_window(sf::VideoMode(800, 600), "Dungeons And Doenekes") {
     // Load game font
     const std::string font_path = "res/dejavu-fonts/DejaVuSans.ttf";
     if (!m_font.loadFromFile(font_path)) throw std::runtime_error("Could not load " + font_path);
+
+    // Create player
+    m_player = std::make_unique<Player>("Player", 5, 100);
 }
 
 void Game::run() {
     // TODO: Testing!
-    Player player1("Player 1", 5, 100);
     Enemy enemy1("Enemy 1", 5, 25);
-    m_layers.push_back(std::make_unique<LayerBattle>(this, &player1, &enemy1));
+    m_layers.push_back(std::make_unique<LayerBattle>(this, m_player.get(), &enemy1));
 
     while (m_main_window.isOpen()) {
         sf::Event event;

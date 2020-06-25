@@ -5,15 +5,15 @@
 Character::Character(const std::string& name, int attack, int health)
     : m_name(name), m_attack(attack), m_health(health), m_max_health(health) {}
 
-int Character::attack() const {
-    int total_damage = m_attack;
+int Character::total_attack() const {
+    int attack = m_attack;
     for (auto& item : m_inventory) {
-        total_damage += item.attack();
+        attack += item.attack();
     }
-    return total_damage;
+    return attack;
 }
 
-void Character::deal_damage(int attack) {
+void Character::incur_damage(int attack) {
     for (auto& item : m_inventory) {
         attack -= item.armor();
     }

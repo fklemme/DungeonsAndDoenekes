@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 #include "Layer.hpp"
+#include "Player.hpp"
 
 class Game {
   public:
@@ -16,9 +17,10 @@ class Game {
     inline const sf::Font& font() const { return m_font; }
 
   private:
+    sf::Font m_font;
     sf::RenderWindow m_main_window;
     sf::Clock m_frame_timer;
     std::vector<std::unique_ptr<Layer>> m_layers;
 
-    sf::Font m_font;
+    std::unique_ptr<Player> m_player;
 };
