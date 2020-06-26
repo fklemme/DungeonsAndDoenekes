@@ -4,13 +4,13 @@
 
 #include "Enemy.hpp"
 #include "Game.hpp"
-#include "Layer.hpp"
 #include "Player.hpp"
-#include "utils/observer_ptr.hpp"
+#include "layer/Layer.hpp"
+#include "utility/observer_ptr.hpp"
 
-class LayerBattle : public Layer {
+class Battle : public Layer {
   public:
-    LayerBattle(observer_ptr<Game> game, observer_ptr<const Player> player, observer_ptr<const Enemy> enemy);
+    Battle(observer_ptr<Game> game, observer_ptr<const Player> player, observer_ptr<const Enemy> enemy);
 
     bool handle_event(const sf::Event&) override;
     bool render(sf::RenderWindow&, const sf::Time&) const override;

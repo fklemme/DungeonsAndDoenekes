@@ -1,8 +1,9 @@
 #include "Game.hpp"
 
 #include <stdexcept>
+
 #include "Enemy.hpp"
-#include "LayerBattle.hpp"
+#include "layer/Battle.hpp"
 
 Game::Game() : m_main_window(sf::VideoMode(800, 600), "Dungeons And Doenekes") {
     // Load game font
@@ -16,7 +17,7 @@ Game::Game() : m_main_window(sf::VideoMode(800, 600), "Dungeons And Doenekes") {
 void Game::run() {
     // TODO: Testing!
     Enemy enemy1("Enemy 1", 5, 25);
-    m_layers.push_back(std::make_unique<LayerBattle>(this, m_player.get(), &enemy1));
+    m_layers.push_back(std::make_unique<Battle>(this, m_player.get(), &enemy1));
 
     while (m_main_window.isOpen()) {
         sf::Event event;

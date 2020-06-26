@@ -5,8 +5,9 @@
 #include <SFML/System/Clock.hpp>
 #include <memory>
 #include <vector>
-#include "Layer.hpp"
+
 #include "Player.hpp"
+#include "layer/Layer.hpp"
 
 class Game {
   public:

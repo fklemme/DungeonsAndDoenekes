@@ -1,5 +1,5 @@
 #include "Game.hpp"
-#include "utils/observer_ptr.hpp"
+#include "utility/observer_ptr.hpp"
 
 // Just for testing
 // TODO: remove!

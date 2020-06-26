@@ -2,11 +2,11 @@
 
 #include <SFML/Graphics/CircleShape.hpp>
 
-#include "Layer.hpp"
+#include "layer/Layer.hpp"
 
-class LayerTest : public Layer {
+class Test : public Layer {
   public:
-    LayerTest();
+    Test();
 
     bool handle_event(const sf::Event&) override;
     bool render(sf::RenderWindow&, const sf::Time&) const override;

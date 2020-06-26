@@ -1,13 +1,14 @@
-#include "LayerBattle.hpp"
+#include "layer/Battle.hpp"
 
 #include <SFML/Graphics/Text.hpp>
 #include <sstream>
 
-LayerBattle::LayerBattle(observer_ptr<Game> game, observer_ptr<const Player> player, observer_ptr<const Enemy> enemy) : m_game(game), m_player(player), m_enemy(enemy) {}
+Battle::Battle(observer_ptr<Game> game, observer_ptr<const Player> player, observer_ptr<const Enemy> enemy)
+    : m_game(game), m_player(player), m_enemy(enemy) {}
 
-bool LayerBattle::handle_event(const sf::Event&) { return false; }
+bool Battle::handle_event(const sf::Event&) { return false; }
 
-bool LayerBattle::render(sf::RenderWindow& window, const sf::Time&) const {
+bool Battle::render(sf::RenderWindow& window, const sf::Time&) const {
     sf::Text player_name(m_player->name(), m_game->font());
     player_name.setPosition(600.0f, 0.0f);
     window.draw(player_name);
