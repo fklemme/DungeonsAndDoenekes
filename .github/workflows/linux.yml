@@ -11,9 +11,17 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
+    # As long is there is no ubuntu > 18.04, we need to install GCC-8 manually for full C++17 support.
+    - name: Install GCC-8
+      run: |
+        sudo apt-get update
+        sudo apt-get install g++-8
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8
+
     - uses: actions/checkout@v2
 
     - name: Checkout submodules
