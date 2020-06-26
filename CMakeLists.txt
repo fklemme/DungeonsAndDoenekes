@@ -10,11 +10,13 @@ add_executable(${PROJECT_NAME})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
 # Add sources and include directory
-file(GLOB hdr "inc/*.hpp" "inc/*/*.hpp")
-file(GLOB src "src/*.cpp" "src/*/*.cpp")
+file(GLOB_RECURSE hdr "${CMAKE_CURRENT_SOURCE_DIR}/inc/*.hpp")
+file(GLOB_RECURSE src "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/inc)
-target_sources(${PROJECT_NAME} PUBLIC ${hdr} PRIVATE ${src})
-
+target_sources(${PROJECT_NAME} PRIVATE ${hdr} PRIVATE ${src})
+# For Visual Studio filters
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/inc PREFIX "Header Files" FILES ${hdr})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Source Files" FILES ${src})
 
 # Enable more warnings
 if (MSVC)
