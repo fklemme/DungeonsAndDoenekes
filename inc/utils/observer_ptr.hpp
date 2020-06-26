@@ -78,7 +78,9 @@ bool operator!=(std::nullptr_t, const observer_ptr<T>& p) noexcept {
 template <typename T, typename U>
 bool operator<(const observer_ptr<T>& p1, const observer_ptr<U>& p2) {
     // return std::less<V>()(p1.get(), p2.get());  // where V is the composite pointer type of T* and U*
-    return std::less()(p1.get(), p2.get());  // since C++14: deducing argument and return types
+    // return std::less()(p1.get(), p2.get());  // since C++14: deducing argument and return types
+    // Looks like older compilers (GCC 7/8) can't handle the above. Let's keep it simple for now:
+    return p1.get() < p2.get();
 }
 
 template <typename T, typename U>
