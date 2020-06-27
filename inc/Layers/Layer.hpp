@@ -5,7 +5,7 @@
 #include <SFML/Window/Event.hpp>
 #include "utility/observer_ptr.hpp"
 
-class Game; // forward declaration
+class Game;  // forward declaration
 
 class Layer {
     friend class Game;
@@ -29,11 +29,9 @@ class Layer {
 
   protected:
     observer_ptr<Game> m_game;  // Will be set when pushed to game.
-
     bool m_render_underlying_layers = true;
-
-    void remove_on_next_frame_update();
+    void remove_this_layer();
 
   private:
-    bool m_remove_on_next_frame_update = false;
+    bool m_marked_for_removal = false;
 };

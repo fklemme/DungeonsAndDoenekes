@@ -1,9 +1,11 @@
 #include "Game.hpp"
 
+#include <algorithm>
+#include <iostream>
 #include <stdexcept>
-
 #include "Enemy.hpp"
 #include "Layers/Battle.hpp"
+#include "utility/algorithm.hpp"
 
 Game::Game() : m_main_window(sf::VideoMode(800, 600), "Dungeons And Doenekes") {
     // Load font
@@ -38,23 +40,34 @@ void Game::run() {
             }
         }
 
-        // Check status and update layer_view if needed.
+        // Update layer stack and view
         if (m_layers_update) {
-			// TODO: Update layers...
-            // Get a new layer view
+            // Remove all layers marked for removal
+            auto marked_for_removal = [](observer_ptr<Layer> ptr) { return ptr->m_marked_for_removal; };
+            m_layers.erase(std::remove_if(m_layers.begin(), m_layers.end(), marked_for_removal), m_layers.end());
+
+            // If layer stack is empty, close application
+            if (m_layers.empty()) {
+                m_main_window.close();
+                return;
+            }
+
+            // Get a new layer view and update iterator to first drawing layer
             layer_view = std::vector<observer_ptr<Layer>>(m_layers.begin(), m_layers.end());
-            layer_draw_begin = layer_view.begin();        // TODO: set begin correctly
-            if (m_layers.empty()) m_main_window.close();  // TODO: Is this the right place?
-            m_layers_update = false;                      // reset flag
+            auto bottom_layer_to_draw = [](observer_ptr<Layer> ptr) { return !ptr->m_render_underlying_layers; };
+            layer_draw_begin = find_last_if(layer_view.begin(), layer_view.end(), bottom_layer_to_draw);
+            // TOOD: Could be removed in the future:
+            layer_draw_begin = layer_draw_begin == layer_view.end() ? layer_view.begin() : layer_draw_begin;
+
+            m_layers_update = false;  // reset flag, so checks are not done on every frame
+
+            std::cout << "Layers on stack: " << layer_view.size() << "\n";                                 // DEBUG!
+            std::cout << "Layers to draw: " << std::distance(layer_draw_begin, layer_view.end()) << "\n";  // DEBUG!
         }
 
         // Draw stuff to the window
         auto elapsed_time = m_frame_timer.restart();
         m_main_window.clear();
-
-        // Find the last layer that is not showing (further) underlying layers
-        // auto it = m_layers.end();
-        // while (it != m_layers.begin() && (*--it)->render_underlying_layers());
 
         // Dispatch rendering, bottom to top
         for (auto it = layer_draw_begin; it != layer_view.end(); ++it) (*it)->render(m_main_window, elapsed_time);

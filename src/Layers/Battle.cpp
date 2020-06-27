@@ -1,15 +1,12 @@
 #include "Layers/Battle.hpp"
 
 #include <SFML/Graphics/Text.hpp>
-#include <sstream>
-
-// For debugging
 #include <iostream>
 #include <memory>
+#include <sstream>
 #include "Layers/Test.hpp"
 
-Battle::Battle(observer_ptr<const Player> player, observer_ptr<const Enemy> enemy)
-    : m_player(player), m_enemy(enemy) {}
+Battle::Battle(observer_ptr<const Player> player, observer_ptr<const Enemy> enemy) : m_player(player), m_enemy(enemy) {}
 
 bool Battle::handle_event(const sf::Event& event) {
     if (event.type == sf::Event::KeyPressed) {

@@ -5,7 +5,6 @@
 #include <SFML/System/Clock.hpp>
 #include <memory>
 #include <vector>
-
 #include "Layers/Layer.hpp"
 #include "Player.hpp"
 
@@ -22,7 +21,7 @@ class Game {
         push_layer(std::make_unique<LayerType>(std::forward<Args>(args)...));
     }
 
-	inline void update_layers() { m_layers_update = true; }
+    inline void update_layers() { m_layers_update = true; }
 
     inline const sf::Font& font() const { return m_font; }
 

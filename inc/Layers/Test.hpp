@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics/CircleShape.hpp>
-
 #include "Layers/Layer.hpp"
 
 class Test : public Layer {

@@ -1,11 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics/CircleShape.hpp>
-
 #include "Enemy.hpp"
 #include "Game.hpp"
-#include "Player.hpp"
 #include "Layers/Layer.hpp"
+#include "Player.hpp"
 #include "utility/observer_ptr.hpp"
 
 class Battle : public Layer {

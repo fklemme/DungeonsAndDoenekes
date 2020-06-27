@@ -2,7 +2,7 @@
 
 #include "Game.hpp"
 
-void Layer:: remove_on_next_frame_update() {
-    m_remove_on_next_frame_update = true;
+void Layer::remove_this_layer() {
+    m_marked_for_removal = true;
     m_game->update_layers();
 }
