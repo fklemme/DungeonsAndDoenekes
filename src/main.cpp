@@ -1,23 +1,21 @@
 #include "Game.hpp"
-#include "utility/observer_ptr.hpp"
 
 // Just for testing
 // TODO: remove!
+#include <iostream>
+#include <vector>
+#include "utility/observer_ptr.hpp"
+#include <memory>
+
 static void test() {
-    float f = 5.0f;
-    double d = 7.0;
-
-    observer_ptr<float> f_ptr = &f;
-    observer_ptr<double> d_ptr = &d;
-
-    // auto f_ptr = make_observer(&f);
-    // auto d_ptr = make_observer(&d);
-
-    if (*f_ptr < *d_ptr) *f_ptr = *d_ptr;
+    auto owning_int_ptr = std::make_unique<int>(5);
+    observer_ptr<int> int_ptr(owning_int_ptr);
+    std::cout << std::is_convertible_v<int*, int*> << std::endl;
 }
 
 int main() {
-    test();
+    //test();
+    //return 0;
 
     Game game;
 

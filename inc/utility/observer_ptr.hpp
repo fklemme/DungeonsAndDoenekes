@@ -4,7 +4,9 @@
 #include <type_traits>
 
 // Implementation of std::experimental::observer_ptr.
-// Some behavior has changed to increase usability (e.g. non-explict construction from T*).
+// Some behavior has changed to increase usability:
+//  - non-explict construction from T*
+//  - non-explict construction from std::unique_ptr<T>
 template <typename T>
 class observer_ptr {
   public:
@@ -18,9 +20,14 @@ class observer_ptr {
     observer_ptr(const observer_ptr& other) = default;
     observer_ptr(observer_ptr&& other) = default;
 
+    // FIXME: Why is this template not working?
     // Own addition. Dangerous? Loss of meaning?
     // template <typename U, std::enable_if_t<std::is_convertible_v<U*, element_type*>> = 0>
     // observer_ptr(const std::unique_ptr<U>& ptr) noexcept : m_ptr(ptr.get()) {}
+
+    // Own addition. Dangerous? Loss of meaning?
+	// Simple version, because the above is not working...
+    observer_ptr(const std::unique_ptr<T>& ptr) noexcept : m_ptr(ptr.get()) {}
 
     constexpr element_type* release() noexcept {
         element_type* before = m_ptr;

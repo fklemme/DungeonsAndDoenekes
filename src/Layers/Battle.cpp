@@ -1,14 +1,30 @@
-#include "layer/Battle.hpp"
+#include "Layers/Battle.hpp"
 
 #include <SFML/Graphics/Text.hpp>
 #include <sstream>
 
-Battle::Battle(observer_ptr<Game> game, observer_ptr<const Player> player, observer_ptr<const Enemy> enemy)
-    : m_game(game), m_player(player), m_enemy(enemy) {}
+// For debugging
+#include <iostream>
+#include <memory>
+#include "Layers/Test.hpp"
 
-bool Battle::handle_event(const sf::Event&) { return false; }
+Battle::Battle(observer_ptr<const Player> player, observer_ptr<const Enemy> enemy)
+    : m_player(player), m_enemy(enemy) {}
 
-bool Battle::render(sf::RenderWindow& window, const sf::Time&) const {
+bool Battle::handle_event(const sf::Event& event) {
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::A) {
+            // Push Test layer
+            std::cout << "A pressed -> Pushing Test layer!" << std::endl;
+            m_game->emplace_layer<Test>();
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void Battle::render(sf::RenderWindow& window, const sf::Time&) const {
     sf::Text player_name(m_player->name(), m_game->font());
     player_name.setPosition(600.0f, 0.0f);
     window.draw(player_name);
@@ -28,6 +44,4 @@ bool Battle::render(sf::RenderWindow& window, const sf::Time&) const {
     sf::Text enemy_health(ehealth.str(), m_game->font());
     enemy_health.setPosition(200.0f, 250.0f);
     window.draw(enemy_health);
-
-    return false;
 }
