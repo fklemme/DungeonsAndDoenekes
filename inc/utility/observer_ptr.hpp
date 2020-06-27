@@ -15,19 +15,14 @@ class observer_ptr {
     constexpr observer_ptr() noexcept : m_ptr(nullptr) {}
     constexpr observer_ptr(nullptr_t) noexcept : m_ptr(nullptr) {}
     /* explicit */ observer_ptr(element_type* ptr) noexcept : m_ptr(ptr) {}
-    template <typename U, std::enable_if_t<std::is_convertible_v<U*, element_type*>> = 0>
+    template <typename U, std::enable_if_t<std::is_convertible_v<U*, element_type*>, int> = 0>
     observer_ptr(observer_ptr<U> other) noexcept : m_ptr(other.m_ptr) {}
     observer_ptr(const observer_ptr& other) = default;
     observer_ptr(observer_ptr&& other) = default;
 
-    // FIXME: Why is this template not working?
     // Own addition. Dangerous? Loss of meaning?
-    // template <typename U, std::enable_if_t<std::is_convertible_v<U*, element_type*>> = 0>
-    // observer_ptr(const std::unique_ptr<U>& ptr) noexcept : m_ptr(ptr.get()) {}
-
-    // Own addition. Dangerous? Loss of meaning?
-	// Simple version, because the above is not working...
-    observer_ptr(const std::unique_ptr<T>& ptr) noexcept : m_ptr(ptr.get()) {}
+    template <typename U, std::enable_if_t<std::is_convertible_v<U*, element_type*>, int> = 0>
+    observer_ptr(const std::unique_ptr<U>& ptr) noexcept : m_ptr(ptr.get()) {}
 
     constexpr element_type* release() noexcept {
         element_type* before = m_ptr;
