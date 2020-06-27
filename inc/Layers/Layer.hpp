@@ -5,6 +5,8 @@
 #include <SFML/Window/Event.hpp>
 #include "utility/observer_ptr.hpp"
 
+class Game; // forward declaration
+
 class Layer {
     friend class Game;
 
@@ -26,7 +28,7 @@ class Layer {
     virtual void render(sf::RenderWindow&, const sf::Time&) const = 0;
 
   protected:
-    observer_ptr<Game> m_game; // Will be set when pushed to game.
+    observer_ptr<Game> m_game;  // Will be set when pushed to game.
 
     bool m_render_underlying_layers = true;
 
