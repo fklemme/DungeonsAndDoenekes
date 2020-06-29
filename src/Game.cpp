@@ -6,8 +6,14 @@
 #include "Enemy.hpp"
 #include "Layers/Battle.hpp"
 #include "utility/algorithm.hpp"
+#include <imgui.h>
+#include <imgui-SFML.h>
+#include <SFML/System/Clock.hpp>
 
 Game::Game() : m_main_window(sf::VideoMode(800, 600), "Dungeons And Doenekes") {
+    // Init ImGui
+    ImGui::SFML::Init(m_main_window);
+
     // Load font
     const std::string font_path = "res/dejavu-fonts/DejaVuSans.ttf";
     if (!m_font.loadFromFile(font_path)) throw std::runtime_error("Could not load " + font_path);
@@ -15,6 +21,8 @@ Game::Game() : m_main_window(sf::VideoMode(800, 600), "Dungeons And Doenekes") {
     // Create player
     m_player = std::make_unique<Player>("Player", 5, 100);
 }
+
+Game::~Game() {ImGui::SFML::Shutdown();}
 
 void Game::run() {
     // TODO: Testing!
@@ -26,10 +34,13 @@ void Game::run() {
     auto layer_view = std::vector<observer_ptr<Layer>>(m_layers.begin(), m_layers.end());
     auto layer_draw_begin = layer_view.begin();
 
+    sf::Clock frame_timer;
     while (m_main_window.isOpen()) {
         // Handle events, or forward to layers
         sf::Event event;
         while (m_main_window.pollEvent(event)) {
+            ImGui::SFML::ProcessEvent(event);
+
             if (event.type == sf::Event::Closed) {
                 m_main_window.close();  // TODO: Move to main menu
             } else {
@@ -66,12 +77,20 @@ void Game::run() {
         }
 
         // Draw stuff to the window
-        auto elapsed_time = m_frame_timer.restart();
+        auto elapsed_time = frame_timer.restart();
+        ImGui::SFML::Update(m_main_window, elapsed_time);
         m_main_window.clear();
+
+        // Debugging layer stack
+        ImGui::Begin("Layer Stack");
+        for (auto layer : layer_view)
+            ImGui::Text("Type name: %s", typeid(*layer).name());
+        ImGui::End();
 
         // Dispatch rendering, bottom to top
         for (auto it = layer_draw_begin; it != layer_view.end(); ++it) (*it)->render(m_main_window, elapsed_time);
 
+        ImGui::SFML::Render(m_main_window);
         m_main_window.display();  // swap buffers
     }
 }
