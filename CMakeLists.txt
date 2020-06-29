@@ -30,7 +30,13 @@ if(WIN32)
     set(BUILD_SHARED_LIBS FALSE)
 endif()
 add_subdirectory(ext/SFML)
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
+# (link_libraries for sfml-graphics, sfml-system and sfml-window are included in "ImGui-SFML" below)
+
+# ImGui for SFML
+set(IMGUI_SFML_FIND_SFML OFF)
+set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ext/imgui)
+add_subdirectory(ext/imgui-sfml)
+target_link_libraries(${PROJECT_NAME} PRIVATE ImGui-SFML)
 
 # Copy game resources to build directory.
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/res DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
